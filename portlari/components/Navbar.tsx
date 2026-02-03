@@ -1,26 +1,34 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Colors } from '../constants/theme'; // Usando caminho relativo para evitar erro de alias
-import { useColorScheme } from '../hooks/use-color-scheme'; // Caminho relativo também
+import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { Colors } from '../constants/theme';
+import { useColorScheme } from '../hooks/use-color-scheme';
 
 export default function Navbar() {
   const colorScheme = useColorScheme();
-  const currentMode = colorScheme === 'dark' ? 'dark' : 'light';
-  const theme = Colors[currentMode];
+  const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
 
-  // Se o tema falhar por algum motivo, não deixamos o app quebrar
   if (!theme) return null;
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background, borderBottomColor: theme.tint }]}>
-      <Text style={[styles.logo, { color: theme.text }]}>
-        PORT<Text style={{ color: theme.tint }}>.LARI</Text>
-      </Text>
+    <View style={[
+      styles.container, 
+      { 
+        backgroundColor: theme.background, 
+        borderBottomColor: theme.text, // Mudamos para a cor do texto para um contraste mais "bruto"
+        borderBottomWidth: 4 
+      }
+    ]}>
+      <View>
+        <Text style={[styles.logo, { color: theme.text }]}>
+          PORT<Text style={{ color: theme.tint }}>.LARI</Text>
+        </Text>
+        <View style={[styles.logoLine, { backgroundColor: theme.tint }]} />
+      </View>
       
       <TouchableOpacity 
-        activeOpacity={0.7}
-        style={[styles.button, { backgroundColor: theme.tint }]}
+        activeOpacity={0.8}
+        style={[styles.button, { backgroundColor: theme.tint, shadowColor: theme.text }]}
       >
-        <Text style={styles.buttonText}>Contato</Text>
+        <Text style={styles.buttonText}>CONTATO</Text>
       </TouchableOpacity>
     </View>
   );
@@ -28,29 +36,49 @@ export default function Navbar() {
 
 const styles = StyleSheet.create({
   container: {
-    height: 70,
+    height: 80,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    borderBottomWidth: 3,
-    //marginTop: 40, 
+    paddingHorizontal: 24,
+    zIndex: 100,
   },
   logo: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '900',
-    letterSpacing: -1,
+    letterSpacing: -1.5,
+    textTransform: 'uppercase',
+  },
+  logoLine: {
+    height: 4,
+    width: '40%',
+    marginTop: -2,
   },
   button: {
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    borderRadius: 0,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     borderWidth: 2,
     borderColor: '#000',
+    borderRadius: 0,
+    // Efeito Neubrutalista de sombra sólida
+    ...Platform.select({
+      ios: {
+        shadowOffset: { width: 4, height: 4 },
+        shadowOpacity: 1,
+        shadowRadius: 0,
+      },
+      android: {
+        elevation: 0, // No Android, sombras customizadas são limitadas, usamos bordas
+      },
+      web: {
+        boxShadow: '4px 4px 0px 0px #000',
+      }
+    }),
   },
   buttonText: {
     color: '#000',
-    fontWeight: 'bold',
-    fontSize: 14,
+    fontWeight: '900',
+    fontSize: 12,
+    letterSpacing: 1,
   },
 });

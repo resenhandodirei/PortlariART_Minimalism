@@ -7,6 +7,10 @@ export default function Hero() {
   const colorScheme = useColorScheme() ?? 'light';
   const theme = Colors[colorScheme];
 
+  const handleAction = (type: 'about' | 'work') => {
+    console.log(`Navigating to ${type}`);
+  };
+
   return (
     <View style={styles.heroContainer}>
       <View style={[styles.badge, { borderColor: theme.text }]}>
@@ -23,9 +27,7 @@ export default function Hero() {
       <Text style={[styles.description, { color: theme.text }]}>
         Eu transformo designs complexos em interfaces <Text style={{ fontWeight: 'bold' }}>minimalistas</Text> e funcionais.
       </Text>
-    
-        <Button />
-      
+          
     </View>
   );
 }

@@ -3,48 +3,67 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
 
+interface Props {
+  onAction: (type: 'about' | 'work') => void;
+  activeSection: 'none' | 'about' | 'work';
+}
 
-export default function Button() {
-    const theme = useColorScheme();
-    const themeKey = typeof theme === 'string' ? theme : 'light';
-    return(
-        <>
+export default function ActionButtons({ onAction, activeSection }: Props) {
+    const themeKey = useColorScheme() ?? 'light';
+    const theme = Colors[themeKey];
+    
+    return (
         <View style={styles.buttonGroup}>
-            <TouchableOpacity style={[styles.ctaButton, { backgroundColor: Colors[themeKey]?.tint ?? '#000' }]}>
-              <Text style={styles.ctaText}>MEU TRABALHO</Text>
+            <TouchableOpacity 
+                onPress={() => onAction('about')}
+                style={[
+                    styles.baseButton, 
+                    activeSection === 'about' 
+                        ? { backgroundColor: theme.tint, borderColor: theme.tint } 
+                        : { backgroundColor: 'transparent', borderColor: theme.text }
+                ]}>
+              <Text style={[
+                  styles.buttonText, 
+                  { color: activeSection === 'about' ? '#000' : theme.text }
+              ]}>
+                SOBRE MIM
+              </Text>
             </TouchableOpacity>
     
-            <TouchableOpacity style={[styles.secondaryButton, { borderBottomColor: Colors[themeKey]?.text ?? '#000' }]}>
-              <Text style={[styles.secondaryText, { color: Colors[themeKey]?.text ?? '#000' }]}>SOBRE MIM</Text>
+            <TouchableOpacity 
+                onPress={() => onAction('work')}
+                style={[
+                    styles.baseButton, 
+                    activeSection === 'work' 
+                        ? { backgroundColor: theme.tint, borderColor: theme.tint } 
+                        : { backgroundColor: 'transparent', borderColor: theme.text }
+                ]}>
+              <Text style={[
+                  styles.buttonText, 
+                  { color: activeSection === 'work' ? '#000' : theme.text }
+              ]}>
+                MEU TRABALHO
+              </Text>
             </TouchableOpacity>
-          </View>
-          </>
-    )
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
     buttonGroup: {
         flexDirection: 'row',
         marginTop: 30,
-        },
-        ctaButton: {
+        gap: 15, 
+    },
+    baseButton: {
         paddingVertical: 12,
-        paddingHorizontal: 25,
-        borderRadius: 5,
-        marginRight: 15,
-        },
-        ctaText: {
-        color: '#fff',
-        fontWeight: '700',
-        fontSize: 16,
-        },
-        secondaryButton: {
-        paddingVertical: 12,
-        paddingHorizontal: 25,
-        borderBottomWidth: 2,
-        },
-        secondaryText: {
-        fontSize: 16,
-        fontWeight: '600',
-        },
+        paddingHorizontal: 20,
+        borderWidth: 2, 
+        borderRadius: 0, 
+    },
+    buttonText: {
+        fontSize: 14,
+        fontWeight: '900',
+        letterSpacing: 1,
+    },
 });
