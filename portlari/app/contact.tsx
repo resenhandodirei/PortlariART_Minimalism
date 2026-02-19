@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Linking, ScrollView, Animated } from 'react-native';
 import { Feather } from '@expo/vector-icons'; 
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import { Colors } from '@/app/constants/theme';
+import { useColorScheme } from '@/app/hooks/use-color-scheme';
+import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 
 export default function Contact() {
   const colorScheme = useColorScheme() ?? 'light';

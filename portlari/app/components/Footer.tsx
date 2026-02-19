@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Colors } from '@/app/constants/theme';
+import { useColorScheme } from '@/app/hooks/use-color-scheme';
 
 export default function Footer() {
   const colorScheme = useColorScheme() ?? 'light';

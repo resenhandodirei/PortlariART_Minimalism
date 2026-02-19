@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { Colors } from '@/constants/theme';
-import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
-import ActionButtons from '@/components/Button'; 
-import Footer from '@/components/Footer';
-import Timeline from '@/components/Timeline';
-import ProjectCards from '@/components/ProjectCards';
+import { useColorScheme } from '@/app/hooks/use-color-scheme';
+import { Colors } from '@/app/constants/theme';
+import Navbar from '@/app/components/Navbar';
+import Hero from '@/app/components/Hero';
+import ActionButtons from '@/app/components/Button'; 
+import Footer from '@/app/components/Footer';
+import Timeline from '@/app/components/Timeline';
+import ProjectCards from '@/app/components/ProjectCards';
+
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme() ?? 'light';
@@ -17,7 +18,7 @@ export default function HomeScreen() {
   const [activeSection, setActiveSection] = useState<'none' | 'about' | 'work'>('none');
   const [filter, setFilter] = useState<'Todos' | 'Frontend' | 'Backend' | 'Fullstack' | 'Mobile' | 'IA'>('Todos');
 
-  const categories = ['Todos', 'Frontend', 'Backend', 'Mobile', 'IA'] as const;
+  const categories = ['Todos', 'FullStack', 'Frontend', 'Backend', 'Mobile', 'IA'] as const;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
@@ -41,9 +42,14 @@ export default function HomeScreen() {
               <View style={styles.sectionContainer}>
                 <Text style={[styles.sectionTitle, { color: theme.tint }]}>_SOBRE_MIM</Text>
                 <Text style={[styles.bioText, { color: theme.text }]}>
-                  Engenheiro de Software focado em criar sistemas robustos com estética minimalista. 
-                  Especialista em ecossistemas JavaScript e Inteligência Artificial.
-                </Text>
+                  Sou desenvolvedora Fullstack e Mobile com foco em construir soluções que funcionam de verdade — rápidas, escaláveis e bem estruturadas. Trabalho com React, React Native, SwiftUI, TypeScript, Vue e Angular, sempre priorizando código limpo, organização e experiência do usuário.
+
+                    Tenho experiência com backend utilizando Node.js, Prisma, TypeORM, PostgreSQL, MariaDB e MySQL, além de atuar com estilização moderna usando Tailwind, SASS e outras bibliotecas de UI. Gosto de transformar ideias em produtos reais, saindo do conceito até a entrega funcional.
+
+                    Tenho forte interesse em dados e inteligência artificial, atualmente cursando pós-graduação em Big Data e IA, aprofundando meus conhecimentos em análise de dados, modelagem e aplicações inteligentes.
+
+                    Estou em constante evolução, estudando arquitetura, mobile e boas práticas de desenvolvimento para construir soluções cada vez mais robustas e orientadas a dados.
+                  </Text>
                 <Timeline />
               </View>
             )}
@@ -104,12 +110,17 @@ const styles = StyleSheet.create({
     marginTop: 30, 
     width: '100%',
     maxWidth: 800, 
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  
   },
   sectionTitle: { 
     fontSize: 22, 
     fontWeight: '900', 
     marginBottom: 15,
     letterSpacing: 1,
+    marginRight: 'auto',
   },
   bioText: {
     fontSize: 16, 
@@ -118,8 +129,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   dynamicArea: {
-    width: '100%',
-    minHeight: 300, 
+    minHeight: 400, 
   },
   filterBar: {
     flexDirection: 'row',

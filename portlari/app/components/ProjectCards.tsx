@@ -1,69 +1,101 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Linking, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Colors } from '@/app/constants/theme';
+import { useColorScheme } from '@/app/hooks/use-color-scheme';
 import { useRouter } from 'expo-router';
 
 const { width } = Dimensions.get('window');
 
 // Tipagem
-export type ProjectCategory = 'Frontend' | 'Backend' | 'Fullstack' | 'Mobile' | 'IA';
+export type ProjectCategory = 'FullStack' | 'Frontend' | 'Backend' | 'Fullstack' | 'Mobile' | 'IA';
 
 interface Project {
   id: string;
   title: string;
   description: string;
-  image: string;
+  image: any;
   category: ProjectCategory;
   link: string;
 }
 
-// ARRAYS DE DADOS (Certifique-se de que ele está aqui!)
+// ARRAYS DE DADOS
 const projects: Project[] = [
   {
     id: '1',
-    title: 'PortlariArt',
+    title: 'PortLariArt',
     description: 'Portfólio minimalista focado em experiência do usuário e performance.',
     image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&q=80',
+    category: 'Frontend',
+    link: 'https://github.com/resenhandodirei/portlari-minimalism',
+  },
+  {
+    id: '4',
+    title: 'ProJuven',
+    description: 'Plataforma voltada para gestão e acompanhamento de demandas relacionadas à juventude, com foco em organização de dados e eficiência institucional.',
+    image: require('@/app/assets/images/projuven.png'),
+    category: 'FullStack',
+    link: 'https://github.com/resenhandodirei/projuven',
+  },
+  {
+    id: '5',
+    title: 'FVConsultoria',
+    description: 'Sistema web institucional desenvolvido para consultoria jurídica, com foco em apresentação profissional e captação estratégica de clientes.',
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&q=80',
     category: 'Frontend',
     link: 'https://github.com/larimscorrea',
   },
   {
-    id: '2',
-    title: 'IA Jurídica',
-    description: 'Sistema inteligente para análise de dados e recomendação de processos.',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=500&q=80',
+    id: '6',
+    title: 'Portfólio Dandara da Luz',
+    description: 'Website autoral para fotógrafa profissional, com foco em identidade visual, performance e experiência imersiva.',
+    image: 'https://images.unsplash.com/photo-1492724441997-5dc865305da7?w=500&q=80',
+    category: 'Frontend',
+    link: 'https://github.com/larimscorrea',
+  },
+  {
+    id: '7',
+    title: 'JusExtractor',
+    description: 'Ferramenta para extração e organização automatizada de dados jurídicos, estruturando informações para análise estratégica.',
+    image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=500&q=80',
     category: 'IA',
     link: 'https://github.com/larimscorrea',
   },
   {
-    id: '3',
-    title: 'App Residência',
-    description: 'Solução mobile desenvolvida para gestão de tarefas em tempo real.',
-    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&q=80',
+    id: '11',
+    title: 'PetroCity',
+    description: 'Aplicação mobile voltada para gestão e visualização estratégica de dados urbanos.',
+    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&q=80',
     category: 'Mobile',
-    link: 'https://github.com/resenhandodirei',
+    link: 'https://github.com/larimscorrea',
+  },
+  {
+    id: '13',
+    title: 'HangmanGame (Python)',
+    description: 'Jogo da forca desenvolvido em Python com foco em lógica de programação e manipulação de estruturas de dados.',
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&q=80',
+    category: 'Backend',
+    link: 'https://github.com/larimscorrea',
   },
 ];
 
 export default function ProjectCards({ activeFilter }: { activeFilter: ProjectCategory | 'Todos' }) {
   const colorScheme = useColorScheme() ?? 'light';
   const theme = Colors[colorScheme];
-
-  const data = projects || [];
+  const router = useRouter();
 
   const filteredProjects = activeFilter === 'Todos' 
-    ? data 
-    : data.filter(p => p.category === activeFilter);
+    ? projects 
+    : projects.filter(p => p.category === activeFilter);
 
   const renderProject = (item: Project) => {
-    // Calcula se deve ser 1 ou 2 colunas baseado na largura da tela (Web vs Mobile)
     const isMobile = width < 768;
     const cardStyle = isMobile ? styles.cardFull : styles.cardHalf;
 
-
-    const router = useRouter();
+    // Lógica para tratar a origem da imagem
+    const imageSource = typeof item.image === 'string' 
+      ? { uri: item.image } 
+      : item.image;
 
     return (
       <View key={item.id} style={[styles.card, cardStyle, { 
@@ -71,7 +103,8 @@ export default function ProjectCards({ activeFilter }: { activeFilter: ProjectCa
         borderColor: colorScheme === 'dark' ? '#333' : '#eee' 
       }]}>
         <View style={styles.imageContainer}>
-          <Image source={{ uri: item.image }} style={styles.image} />
+          {/* CORREÇÃO: Usando a variável tratada imageSource */}
+          <Image source={imageSource} style={styles.image} />
           <View style={[styles.badge, { backgroundColor: theme.tint }]}>
             <Text style={styles.badgeText}>{item.category.toUpperCase()}</Text>
           </View>
@@ -85,7 +118,6 @@ export default function ProjectCards({ activeFilter }: { activeFilter: ProjectCa
           
           <TouchableOpacity 
             style={styles.readMore}
-            //onPress={() => Linking.openURL(item.link)}
             onPress={() => router.push(`/project/${item.id}`)}
           >
             <Text style={[styles.readMoreText, { color: theme.tint }]}>VER PROJETO</Text>
@@ -140,6 +172,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 140,
     position: 'relative',
+    backgroundColor: '#f0f0f0', // Cor de fundo caso a imagem demore
   },
   image: {
     width: '100%',

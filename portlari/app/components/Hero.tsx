@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Colors } from '@/app/constants/theme';
+import { useColorScheme } from '@/app/hooks/use-color-scheme';
 import Button from './Button';
 
 export default function Hero() {

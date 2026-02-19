@@ -1,8 +1,8 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { Colors } from '@/constants/theme'; 
+import { useColorScheme } from '@/app/hooks/use-color-scheme';
+import { Colors } from '@/app/constants/theme'; 
 import { PaperProvider, MD3LightTheme, MD3DarkTheme } from 'react-native-paper';
 
 export default function RootLayout() {

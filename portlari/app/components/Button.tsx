@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { Colors } from '@/constants/theme';
+import { useColorScheme } from '@/app/hooks/use-color-scheme';
+import { Colors } from '@/app/constants/theme';
 
 interface Props {
   onAction: (type: 'about' | 'work') => void;

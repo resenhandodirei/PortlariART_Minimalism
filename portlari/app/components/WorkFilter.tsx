@@ -1,6 +1,6 @@
 import { ScrollView, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Colors } from '@/app/constants/theme';
+import { useColorScheme } from '@/app/hooks/use-color-scheme';
 
 const categories = ['Mobile', 'Fullstack', 'Frontend', 'Back', 'Dados', 'IA'];
 
