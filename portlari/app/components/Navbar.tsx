@@ -1,9 +1,11 @@
 import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { Colors } from '../constants/theme';
 import { useColorScheme } from '../hooks/use-color-scheme';
+import { Link, useRouter } from 'expo-router';
 
 export default function Navbar() {
   const colorScheme = useColorScheme();
+  const router = useRouter();
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
 
   if (!theme) return null;
@@ -13,20 +15,32 @@ export default function Navbar() {
       styles.container, 
       { 
         backgroundColor: theme.background, 
-        borderBottomColor: theme.text, // Mudamos para a cor do texto para um contraste mais "bruto"
+        borderBottomColor: theme.text, 
         borderBottomWidth: 4 
       }
     ]}>
-      <View>
-        <Text style={[styles.logo, { color: theme.text }]}>
-          PORT<Text style={{ color: theme.tint }}>.LARI</Text>
-        </Text>
-        <View style={[styles.logoLine, { backgroundColor: theme.tint }]} />
-      </View>
+      
+      <Link href="/" asChild>
+        <TouchableOpacity activeOpacity={0.7}>
+          <View>
+            <Text style={[styles.logo, { color: theme.text }]}>
+              PORT<Text style={{ color: theme.tint }}>.LARI</Text>
+            </Text>
+            <View style={[styles.logoLine, { backgroundColor: theme.tint }]} />
+           </View>
+        </TouchableOpacity>
+      </Link> 
       
       <TouchableOpacity 
+        onPress={() => router.push('/contact')} // Certifique-se que o arquivo seja contato.tsx ou contato/index.tsx
         activeOpacity={0.8}
-        style={[styles.button, { backgroundColor: theme.tint, shadowColor: theme.text }]}
+        style={[
+          styles.button, 
+          { 
+            backgroundColor: theme.tint, 
+            shadowColor: theme.text,
+          }
+        ]}
       >
         <Text style={styles.buttonText}>CONTATO</Text>
       </TouchableOpacity>
